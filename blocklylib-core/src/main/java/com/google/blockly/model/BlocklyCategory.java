@@ -284,7 +284,7 @@ public class BlocklyCategory {
                         // TODO: Support <sep> separator
                         break;
                     case XmlPullParser.END_TAG:
-                        if (tagname.equalsIgnoreCase("category")) {
+                        if ("category".equalsIgnoreCase(tagname)) {
                             break PARSER_LOOP;
                         }
                         break;

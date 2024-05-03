@@ -515,30 +515,30 @@ public class BlockFactory {
                 switch (eventType) {
                     case XmlPullParser.START_TAG:
                         text = ""; // Ignore text from parent (or prior) block.
-                        if (tagname.equalsIgnoreCase("block")) {
+                        if ("block".equalsIgnoreCase(tagname)) {
                             try {
                                 childBlock = fromXml(parser);
                             } catch (BlockLoadingException e) {
                                 childException = e;  // Save reference to pass through outer catch
                                 throw e;
                             }
-                        } else if (tagname.equalsIgnoreCase("shadow")) {
+                        } else if ("shadow".equalsIgnoreCase(tagname)) {
                             try {
                                 childShadow = fromXml(parser);
                             } catch (BlockLoadingException e) {
                                 childException = e;  // Save reference to pass through outer catch
                                 throw e;
                             }
-                        } else if (tagname.equalsIgnoreCase("field")) {
+                        } else if ("field".equalsIgnoreCase(tagname)) {
                             fieldName = parser.getAttributeValue(null, "name");
-                        } else if (tagname.equalsIgnoreCase("value")
-                                || tagname.equalsIgnoreCase("statement")) {
+                        } else if ("value".equalsIgnoreCase(tagname)
+                                || "statement".equalsIgnoreCase(tagname)) {
                             inputName = parser.getAttributeValue(null, "name");
                             if (TextUtils.isEmpty(inputName)) {
                                 throw new BlockLoadingException(
                                         "<" + tagname + "> must have a name attribute.");
                             }
-                        } else if (tagname.equalsIgnoreCase("mutation")) {
+                        } else if ("mutation".equalsIgnoreCase(tagname)) {
                             String elementStr = BlocklyXmlHelper.captureElement(parser);
                             template.withMutation(elementStr);
                         }
@@ -549,12 +549,12 @@ public class BlockFactory {
                         break;
 
                     case XmlPullParser.END_TAG:
-                        if (tagname.equalsIgnoreCase("block")) {
+                        if ("block".equalsIgnoreCase(tagname)) {
                             return obtainBlockFrom(template);
-                        } else if (tagname.equalsIgnoreCase("shadow")) {
+                        } else if ("shadow".equalsIgnoreCase(tagname)) {
                             template.shadow();
                             return obtainBlockFrom(template);
-                        } else if (tagname.equalsIgnoreCase("field")) {
+                        } else if ("field".equalsIgnoreCase(tagname)) {
                             if (TextUtils.isEmpty(fieldName)) {
                                 Log.w(TAG, "Ignoring unnamed field in " +
                                         template.toString("block"));
@@ -563,11 +563,11 @@ public class BlockFactory {
                             }
                             fieldName = null;
                             text = "";
-                        } else if (tagname.equalsIgnoreCase("comment")) {
+                        } else if ("comment".equalsIgnoreCase(tagname)) {
                             template.withComment(text);
                             text = "";
-                        } else if (tagname.equalsIgnoreCase("value") ||
-                                tagname.equalsIgnoreCase("statement")) {
+                        } else if ("value".equalsIgnoreCase(tagname) ||
+                                "statement".equalsIgnoreCase(tagname)) {
                             if (inputName == null) {
                                 // Start tag missing input name. Should catch this above.
                                 throw new BlockLoadingException("Missing inputName.");
@@ -581,7 +581,7 @@ public class BlockFactory {
                             childBlock = null;
                             childShadow = null;
                             inputName = null;
-                        } else if (tagname.equalsIgnoreCase("next")) {
+                        } else if ("next".equalsIgnoreCase(tagname)) {
                             template.withNextChild(childBlock, childShadow);
                             childBlock = null;
                             childShadow = null;
