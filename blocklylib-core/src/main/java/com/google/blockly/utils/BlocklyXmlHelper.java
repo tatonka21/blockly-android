@@ -25,6 +25,7 @@ import com.google.blockly.model.BlocklyCategory;
 import com.google.blockly.model.BlocklySerializerException;
 import com.google.blockly.model.IOOptions;
 import com.google.blockly.model.Mutator;
+import io.github.pixee.security.BoundedLineReader;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -437,10 +438,10 @@ public final class BlocklyXmlHelper {
                 if (inStream != null) {
                     StringBuilder sb = new StringBuilder();
                     BufferedReader br = new BufferedReader(new InputStreamReader(inStream));
-                    String line = br.readLine();
+                    String line = BoundedLineReader.readLine(br, 5_000_000);
                     while (line != null) {
                         sb.append(line).append('\n');
-                        line = br.readLine();
+                        line = BoundedLineReader.readLine(br, 5_000_000);
                     }
                     br.close();
                     inStream = null;
