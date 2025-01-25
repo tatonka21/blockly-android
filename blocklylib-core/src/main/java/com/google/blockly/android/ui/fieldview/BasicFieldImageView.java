@@ -27,6 +27,8 @@ import android.util.Log;
 
 import com.google.blockly.model.Field;
 import com.google.blockly.model.FieldImage;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -175,7 +177,7 @@ public class BasicFieldImageView extends android.support.v7.widget.AppCompatImag
     @VisibleForTesting
     InputStream getStreamForSource(String source) throws IOException {
         if (HTTP_URL_PATTERN.matcher(source).matches()) {
-            return (InputStream) new URL(source).getContent();
+            return (InputStream) Urls.create(source, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getContent();
         } else if (DATA_URL_PATTERN.matcher(source).matches()) {
             String imageDataBytes = source.substring(source.indexOf(",")+1);
             return new ByteArrayInputStream(
