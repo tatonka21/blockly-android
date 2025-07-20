@@ -1,6 +1,7 @@
 package com.google.blockly.utils;
 
 import android.content.Context;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -80,7 +81,7 @@ public class LangUtils {
                     new InputStreamReader(context.getAssets().open("msg/js/" + lang + ".js")));
 
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                 out.append(line);
                 out.append('\n');
             }
